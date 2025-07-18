@@ -1,0 +1,34 @@
+﻿<h1>Table</h1>
+
+<p id="ParaTest">This is a test</p>
+<form id="tableform">
+    <label for="fname">Name</label><br />
+    <input type="text" id="fname" name="fname" /><br />
+    <label for="fage">Age</label><br />
+    <input type="number" id="fage" name="fage" /><br />
+    <input type="submit" value="Submit" style="margin-bottom:10px">
+</form>
+
+<button id="tablebtn" style="margin-bottom: 10px">Show Table</button>
+
+<div id="tableWrapper" style="margin-bottom: 10px">
+    <table id="DataTable" class="display" style="width: 50%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<button id="exportbtn">Export</button>
+
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="~/js/Table.js"></script>
+}

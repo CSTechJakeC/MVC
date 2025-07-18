@@ -1,0 +1,22 @@
+﻿<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "List Generator";
+}
+<div class="MainText">
+    <h1 >@ViewData["Title"]</h1>
+    <h2>Author List</h2>
+    <button id="GenerateButton">Generate List</button>
+    <ol id="authorList" class="table list-unstyled my-table"></ol>
+
+    <p id="para">Hello there!</p>
+</div>
+ 
+
+
+
+@section Scripts {
+    <script src="~/js/master.js"></script>
+    <script src="~/js/generatebuttonfx.js"></script>
+}

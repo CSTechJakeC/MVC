@@ -1,0 +1,71 @@
+html {
+  font-size: 14px;
+
+}
+
+html, body {
+    background-color: white;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.navbar.bg-white {
+    background-color: gray !important;
+}
+
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.carousel-inner img {
+    max-height: 500px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.MainText{
+    text-align: center;
+}
+
+#GenerateButton{
+    margin-bottom: 10px;
+    background-color: red;
+    color: white;
+    transition: transform 0.2s ease;
+   
+}
+
+#GenerateButton:hover{
+    transform: scale(1.2);
+}
+
+
+.my-table{
+    border: 1px solid black;
+    border-color: red;
+    padding: 10px;
+    border-width: 2px;
+    max-width: 200px;
+    margin: 0 auto;
+    display: none;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+    background-color:black;
+}

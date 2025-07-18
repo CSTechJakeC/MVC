@@ -1,0 +1,11 @@
+﻿@model List<MVC.Models.Student>
+
+@foreach (var student in Model)
+{
+    <tr>
+        <td>@student.FirstName</td>
+        <td>@student.LastName</td>
+        <td>@student.Group</td>
+        <td>@student.Age</td>
+    </tr>
+}

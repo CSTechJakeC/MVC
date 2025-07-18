@@ -1,0 +1,32 @@
+﻿@model List<MVC.Models.Student>
+
+<h2>All Students</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Group</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody id="studentList">
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>@student.Group</td>
+                <td>@student.Age</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button id="Linq">Submit</button>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/LINQ.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "lib": [ "DOM", "ES6" ],
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ],
+  "files": [
+    "wwwroot/js/master.ts",
+    "wwwroot/js/generatebuttonfx.ts",
+    "wwwroot/js/Table.ts",
+    "wwwroot/js/game.ts",
+    "wwwroot/js/Products.ts",
+    "wwwroot/js/LINQ.ts",
+    "wwwroot/js/Bstrap.ts"
+  ]
+}

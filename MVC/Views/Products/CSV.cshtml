@@ -1,0 +1,52 @@
+﻿
+<h1>Product Table</h1>
+<h3>Sort by Catagory</h3>
+<select id="CategoryFilter">
+    <option value="">All</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Home">Home</option>    
+    <option value="Furniture">Furniture</option>
+</select>
+
+<select id="SortFilter">
+    <option value="Name">Name</option>
+    <option value="Price">Price</option>
+</select>
+
+<select id="OrderFilter">
+    <option value="Desc">Desc</option>
+    <option value="Asc">Asc</option>
+</select>
+
+<button id="Submitbtn">Submit</button>
+
+<div id="Table" style="margin: 10px">
+    <table id="ProductsTable" style="width: 50%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<button id="AvgBtn">Save Category Avrages</button>
+
+
+
+<form id="Upload">
+    <input type="file" name="file" id="productFile" accept=".csv" />
+    <button id="formsubmit">Upload</button>
+</form>
+<div id="uploadStatus"></div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/Products.js"></script>
+}

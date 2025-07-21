@@ -1,0 +1,18 @@
+﻿#myTable {
+    width: 100% !important;
+    table-layout: auto;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+.dataTables_wrapper {
+    overflow-x: auto;
+}
+
+.table-scroll-wrapper {
+    max-height:500px;
+    overflow-y: auto;
+    border: 2px solid #000000;
+    padding: 0.5rem;
+}
+

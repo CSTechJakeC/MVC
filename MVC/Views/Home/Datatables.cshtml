@@ -1,12 +1,16 @@
 ﻿@{
     ViewData["Title"] = "OOP DataTable";
 }
-
+<link rel="stylesheet" href="~/css/datatable.css" asp-append-version="true" />
 <h1>Table (OOP Version)</h1>
 
-<table id="myTable" class="display" style="width: 50%">
-    <thead><tr></tr></thead>
-</table>
+<div class="container-fluid">
+    <div class="table-scroll-wrapper">
+        <table id="myTable" class="display nowrap" style="width: 100%">
+            <thead><tr></tr></thead>
+        </table>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

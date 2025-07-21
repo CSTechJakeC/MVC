@@ -1,7 +1,7 @@
-using CsvHelper;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Serialization; // This is probably unnecessary � remove if unused
+using Microsoft.CodeAnalysis.Elfie.Serialization; // This is probably unnecessary — remove if unused
 using MVC.Models;
 using System.Diagnostics;
 using System.Globalization;
@@ -22,6 +22,30 @@ namespace MVC.Controllers
         public IActionResult ListGen() => View();
         public IActionResult Table() => View();
         public IActionResult Game() => View();
+        public IActionResult Datatables() => View();
+
+            public IActionResult RetrieveCSV()
+            {
+                try
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CSV", "data.csv");
+
+                    if (!System.IO.File.Exists(path))
+                        return BadRequest("CSV file not found at: " + path);
+
+                    using var reader = new StreamReader(path);
+                    using var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture);
+
+                    var records = csv.GetRecords<CsvRecord>().ToList();
+                    return Json(records);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.ToString()); 
+                }
+            }
+
+
 
         [HttpPost]
         public IActionResult SaveCsv([FromBody] string csvData)

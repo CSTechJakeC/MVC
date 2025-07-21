@@ -11,6 +11,9 @@
     "node_modules",
     "wwwroot"
   ],
+  "include": [
+    "wwwroot/js/**/*.ts"
+  ],
   "files": [
     "wwwroot/js/master.ts",
     "wwwroot/js/generatebuttonfx.ts",
@@ -18,6 +21,7 @@
     "wwwroot/js/game.ts",
     "wwwroot/js/Products.ts",
     "wwwroot/js/LINQ.ts",
-    "wwwroot/js/Bstrap.ts"
+    "wwwroot/js/Bstrap.ts",
+    "wwwroot/js/datatables.ts"
   ]
 }

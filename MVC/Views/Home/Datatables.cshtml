@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "OOP DataTable";
+}
+
+<h1>Table (OOP Version)</h1>
+
+<table id="myTable" class="display" style="width: 50%">
+    <thead><tr></tr></thead>
+</table>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="~/js/datatables.js" asp-append-version="true"></script>
+
+    <script>
+        $(function () {
+          new DataScreen.Table($("#myTable"));
+        });
+    </script>
+}
+

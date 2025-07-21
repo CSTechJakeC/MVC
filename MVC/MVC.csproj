@@ -19,4 +19,10 @@
     <Folder Include="wwwroot\exports\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\CSV\data.csv">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -11,5 +11,11 @@
         public string DateCreated { get; set; }
         public string DateModified { get; set; }
         public string Note { get; set; }
+
+        public int IsHTML { get; set; }
+        public string CMS_WidgetName { get; set; }
+        public string CMS_Category { get; set; }
+        public int CMS_IsHidden { get; set; }
+        public string CMS_PreviewURL { get; set; }
     }
 }

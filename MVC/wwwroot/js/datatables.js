@@ -25,5 +25,8 @@ var DataScreen;
         }
     }
     DataScreen.Table = Table;
+    $(function () {
+        new DataScreen.Table($("#myTable"));
+    });
 })(DataScreen || (DataScreen = {}));
 //# sourceMappingURL=datatables.js.map

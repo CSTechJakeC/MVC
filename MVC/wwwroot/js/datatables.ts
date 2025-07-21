@@ -30,4 +30,8 @@
         }
 
     }
+
+    $(function () {
+        new DataScreen.Table($("#myTable"));
+    });
 }

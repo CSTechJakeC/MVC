@@ -28,8 +28,19 @@ var DataScreen;
             const table = this.$context.DataTable({
                 data: data,
                 columns: columns,
-                dom: '<"top">t<"bottom"lip>'
+                dom: '<"top">t<"bottom custom-footer"lpi>'
             });
+            setTimeout(() => {
+                const $goto = $(`
+                <div class="goto-page-controls" style="display: flex; align-items: center; gap: 0.25rem; margin-left: 1rem;">
+                    Go to page:
+                    <input type="number" id="gotoPageInput" min="1" class="form-control form-control-sm d-inline-block" style="width: 60px;" />
+                    <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
+                </div>
+            `);
+                $(".custom-footer .dataTables_paginate").css("margin-left", "auto").wrap('<div class="footer-right-group" style="display: flex; align-items: center; gap: 1rem; margin-left: auto;"></div>');
+                $(".custom-footer .footer-right-group").append($goto);
+            }, 0);
             const $input = $("#customsearchinput");
             const $select = $("#customsearchcolumn");
             $input.on("keyup", function () {
@@ -42,6 +53,20 @@ var DataScreen;
                 else {
                     const columnindex = table.column(`${column}:name`).index();
                     table.column(columnindex).search(keyword).draw();
+                }
+            });
+            $(document).on("click", "#gotoPageBtn", function () {
+                const val = Number($("#gotoPageInput").val());
+                const pageCount = table.page.info().pages;
+                if (isNaN(val) || val < 1 || val > pageCount) {
+                    alert(`Enter a valid page number between 1 and ${pageCount}`);
+                    return;
+                }
+                table.page(val - 1).draw("page");
+            });
+            $(document).on("keydown", "#gotoPageInput", function (e) {
+                if (e.key === "Enter") {
+                    $("#gotoPageBtn").trigger("click");
                 }
             });
             $select.on("change", function () {

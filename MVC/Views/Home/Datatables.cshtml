@@ -4,6 +4,15 @@
 <link rel="stylesheet" href="~/css/datatable.css" asp-append-version="true" />
 <h1>Table (OOP Version)</h1>
 
+<div class="custom-search-bar mb-3">
+    <input id="customsearchinput" placeholder="Search" class="form-control d-inline-block" style="max-width: 200px;" />
+    <select id="customsearchcolumn" class="form-select d-inline-block" style="max-width: 200px;">
+        <option value="all">All</option>
+        <option value="pageFriendlyName">Page Name</option>
+        <option value="labelFriendlyName">Label Name</option>
+        <option value="text">Text</option>
+    </select>
+</div>
 <div class="container-fluid">
     <div class="table-scroll-wrapper">
         <table id="myTable" class="display nowrap" style="width: 100%">

@@ -18,8 +18,15 @@
         private renderTable(data: any[]): void {
             if (data.length == 0) return;
 
+            const Mapping: { [key: string]: string } = {
+                locales_Id: "Locales",
+                pageFriendlyName: "Page Name",
+                labelFriendlyName: "Label Name",
+                text: "Text"
+            };
+
             const columns = Object.keys(data[0]).map(key => ({
-                title: key,
+                title: Mapping[key] || key,
                 data: key
             }));
 

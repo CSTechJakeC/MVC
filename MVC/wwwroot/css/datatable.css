@@ -36,13 +36,6 @@
     align-items: center;
     flex-wrap: nowrap; 
 }
-.footer-right-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-}
 
 
 
@@ -61,6 +54,21 @@
 .dataTables_wrapper .dataTables_info {
     text-align: center;
     float: none !important;
+}
+
+.footer-right-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.goto-page-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 

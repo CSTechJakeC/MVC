@@ -53,18 +53,28 @@
             });
 
             setTimeout(() => {
+          
+                $(".goto-page-controls").remove();
+
+      
                 const $goto = $(`
                 <div class="goto-page-controls" style="display: flex; align-items: center; gap: 0.25rem; margin-left: 1rem;">
-                    Go to page:
-                    <input type="number" id="gotoPageInput" min="1" class="form-control form-control-sm d-inline-block" style="width: 60px;" />
-                    <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
+                  Go to page:
+                  <input
+                    type="number"
+                    id="gotoPageInput"
+                    min="1"
+                    class="form-control form-control-sm d-inline-block"
+                    style="width: 60px;"
+                  />
+                  <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
                 </div>
-            `);
+              `);
 
-                $(".custom-footer .dataTables_paginate").css("margin-left", "auto").wrap('<div class="footer-right-group" style="display: flex;  "></div>');
-                $(".custom-footer .footer-right-group").append($goto);
+                $(".custom-footer").append($goto);
+            }, 0);
 
-            }, 0);  
+ 
 
 
             const $input = $("#customsearchinput");
@@ -110,8 +120,12 @@
     }
 
     $(function () {
-        new DataScreen.Table($("#myTable"));
+        if (!$("#myTable").hasClass("datatable-initialized")) {
+            $("#myTable").addClass("datatable-initialized");
+            new DataScreen.Table($("#myTable"));
+        }
     });
+
 
 
 }

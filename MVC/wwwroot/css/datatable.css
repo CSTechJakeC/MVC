@@ -6,13 +6,10 @@
 }
 
 .dataTables_wrapper {
-    overflow-x: auto;
+   
 }
 
 .table-scroll-wrapper {
-    max-height:500px;
-    overflow-y: auto;
-    border: 2px solid #000000;
     padding: 0.5rem;
 }
 
@@ -33,7 +30,10 @@
     left: 0;
 }
 
-
+#myTable, #myTable th, #myTable td {
+    border: none !important;
+    box-shadow: none !important;
+}
 .dataTables_wrapper .dataTables_paginate {
     margin: 0 auto;
     float: none !important;

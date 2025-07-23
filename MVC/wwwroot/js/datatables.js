@@ -25,6 +25,14 @@ var DataScreen;
                 data: key,
                 name: key
             }));
+            columns.push({
+                title: "Actions",
+                data: null,
+                defaultContent: `
+                <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-download"></i></button>
+                <button class="btn btn-sm btn-outline-secondary me-1"><i class="fab fa-twitter"></i></button>
+                <button class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>`
+            });
             const table = this.$context.DataTable({
                 data: data,
                 columns: columns,

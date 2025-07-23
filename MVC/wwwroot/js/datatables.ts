@@ -53,26 +53,48 @@
             });
 
             setTimeout(() => {
-          
-                $(".goto-page-controls").remove();
 
-      
                 const $goto = $(`
-                <div class="goto-page-controls" style="display: flex; align-items: center; gap: 0.25rem; margin-left: 1rem;">
+                <div class="goto-page-controls" style="display: inline-flex; align-items: center; gap: 0.25rem;">
                   Go to page:
-                  <input
-                    type="number"
-                    id="gotoPageInput"
-                    min="1"
-                    class="form-control form-control-sm d-inline-block"
-                    style="width: 60px;"
-                  />
+                  <input type="number" id="gotoPageInput" min="1"
+                         class="form-control form-control-sm d-inline-block"
+                         style="width: 60px;" />
                   <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
                 </div>
               `);
 
-                $(".custom-footer").append($goto);
+                //Detaching
+                const $pag = $(".custom-footer .dataTables_paginate").detach();
+                const $len = $(".custom-footer .dataTables_length").detach();
+
+             
+                const $navRow = $('<div class="footer-nav-row"></div>').css({
+                    display: 'flex',
+                    width: '100%',
+                    alignItems: 'center',
+                    marginTop: '0.5rem'
+                });
+
+                //Reattaching to new Row
+                $navRow.append($('<div></div>').css('flex', '1'));
+                $navRow.append($len.css({ margin: 0 }));
+          
+                $navRow.append($pag.css({ margin: '0 auto' }));
+
+               
+                $navRow.append(
+                    $('<div></div>').css({
+                        flex: '1',
+                        display: 'flex',
+                        justifyContent: 'flex-end'
+                    }).append($goto)
+                );
+
+           
+                $(".custom-footer .dataTables_info").before($navRow);
             }, 0);
+
 
  
 

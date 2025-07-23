@@ -6,3 +6,4 @@ bin
 obj
 node_modules
 *.user
+MVC/wwwroot/CSV/data.csv

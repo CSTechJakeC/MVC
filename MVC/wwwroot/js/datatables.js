@@ -28,10 +28,14 @@ var DataScreen;
             columns.push({
                 title: "Actions",
                 data: null,
+                sortable: false,
+                orderable: false,
                 defaultContent: `
-                <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-download"></i></button>
-                <button class="btn btn-sm btn-outline-secondary me-1"><i class="fab fa-twitter"></i></button>
-                <button class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>`
+                <div class="action-buttons">
+                    <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-download"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary"><i class="fa-brands fa-twitter"></i></button>
+                    <button class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-eye"></i></button>
+                </div>`
             });
             const table = this.$context.DataTable({
                 data: data,
@@ -46,7 +50,7 @@ var DataScreen;
                     <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
                 </div>
             `);
-                $(".custom-footer .dataTables_paginate").css("margin-left", "auto").wrap('<div class="footer-right-group" style="display: flex; align-items: center; gap: 1rem; margin-left: auto;"></div>');
+                $(".custom-footer .dataTables_paginate").css("margin-left", "auto").wrap('<div class="footer-right-group" style="display: flex;  "></div>');
                 $(".custom-footer .footer-right-group").append($goto);
             }, 0);
             const $input = $("#customsearchinput");

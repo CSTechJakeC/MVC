@@ -2,7 +2,7 @@
     width: 100% !important;
     table-layout: auto;
     word-wrap: break-word;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .dataTables_wrapper {
@@ -11,6 +11,11 @@
 
 .table-scroll-wrapper {
     padding: 0.5rem;
+}
+
+#myTable td {
+    white-space: normal !important;
+    word-break: break-word;
 }
 
 
@@ -23,6 +28,22 @@
     gap: 0.5rem;
 }
 
+#myTable .action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; 
+}
+.footer-right-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
 
 
 .dataTables_wrapper .dataTables_length {
@@ -30,10 +51,6 @@
     left: 0;
 }
 
-#myTable, #myTable th, #myTable td {
-    border: none !important;
-    box-shadow: none !important;
-}
 .dataTables_wrapper .dataTables_paginate {
     margin: 0 auto;
     float: none !important;

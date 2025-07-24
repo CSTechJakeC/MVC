@@ -73,8 +73,6 @@ var DataScreen;
             $("#publishSelectedBtn").off("click").on("click", () => {
                 this.sendPublishedItems(table);
             });
-            console.log("Row received by DataTable:", data[0]);
-            console.log("Object.keys(data[0]):", Object.keys(data[0]));
         }
         sendPublishedItems(table) {
             const indexes = [];
@@ -136,7 +134,7 @@ var DataScreen;
                 orderable: false,
                 sortable: false,
                 className: "select-checkbox text-center",
-                defaultContent: '<input type="checkbox" />',
+                defaultContent: '<input type="checkbox" class="custom-checkbox" />',
                 visible: false
             });
         }

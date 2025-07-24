@@ -7,3 +7,4 @@ obj
 node_modules
 *.user
 MVC/wwwroot/CSV/data.csv
+MVC/wwwroot/CSV/published.csv

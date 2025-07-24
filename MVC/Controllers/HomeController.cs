@@ -157,8 +157,6 @@ namespace MVC.Controllers
             return Ok(new { message = $"Published {toPublish.Count} record(s)." });
         }
 
-
-
         [HttpPost]
         public IActionResult SaveCsv([FromBody] string csvData)
         {
@@ -193,7 +191,6 @@ namespace MVC.Controllers
         public IActionResult Error()
             => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
   
     public sealed class CsvRecordMap : ClassMap<CsvRecord>
     {
@@ -205,7 +202,6 @@ namespace MVC.Controllers
             Map(m => m.Text).Name("Text");
         }
     }
-
   
     public class Foo
     {

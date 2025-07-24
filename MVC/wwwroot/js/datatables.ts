@@ -87,10 +87,6 @@
                 this.sendPublishedItems(table);
             });
 
-            console.log("Row received by DataTable:", data[0]);
-            console.log("Object.keys(data[0]):", Object.keys(data[0]));
-
-
         }
 
         private sendPublishedItems(table: any) {
@@ -159,7 +155,7 @@
                 orderable: false,
                 sortable: false,
                 className: "select-checkbox text-center",
-                defaultContent: '<input type="checkbox" />',
+                defaultContent: '<input type="checkbox" class="custom-checkbox" />',
                 visible: false  
             });
         }
@@ -239,7 +235,6 @@
             const pageName = ($("#addPageName").val() as string).trim();
             const labelName = ($("#addLabelName").val() as string).trim();
             const text = ($("#addText").val() as string).trim();
-
       
             if (!locales || !pageName || !labelName || !text) {
                 this.showToast("All fields are required!");

@@ -17,10 +17,16 @@
         private renderTable(data: any[]): void {
             if (data.length === 0) return;
 
-            const columns = this.mapColumnNames(data);
+            const columns = [
+                { title: "Locales", data: "locales_Id", name: "locales_Id" },
+                { title: "Page Name", data: "pageFriendlyName", name: "pageFriendlyName" },
+                { title: "Label Name", data: "labelFriendlyName", name: "labelFriendlyName" },
+                { title: "Text", data: "text", name: "text" },
+            ];
             this.pushActionsColumn(columns);
             const table = this.setTable(data, columns);
             this.setNavRow();
+            this.recordEventListeners();
 
             const $input = $("#customSearchInput");
             const $select = $("#customSearchColumn");
@@ -60,6 +66,10 @@
             $select.on("change", function () {
                 $input.trigger("keyup");
             });
+            console.log("Row received by DataTable:", data[0]);
+            console.log("Object.keys(data[0]):", Object.keys(data[0]));
+
+
         }
 
         private mapColumnNames(data: any[]) {
@@ -135,6 +145,60 @@
 
                 $(".custom-footer .dataTables_info").before($navRow);
             }, 0);
+        }
+        
+        private recordEventListeners() {
+            const $form = $("#addRecordForm");
+
+            const $button = $("#createRecordButton");
+            $button.on("click", () => {
+                ($(`#addRecordModal`) as any).modal("show");
+            });
+
+            const $Save = $("#saveNewRecord");
+            $Save.on("click", () => {
+                this.addNewRecord($form);
+            });
+
+            const $Cancel = $("#cancelNewRecord");
+            $Cancel.on("click", () => this.closeModal($form));
+            
+            const $Close = $("#closeRecordModal");
+            $Close.on("click", () => this.closeModal($form));
+        }
+
+        private closeModal($form: any) {
+            ($("#addRecordModal") as any).modal("hide");
+            ($form[0] as HTMLFormElement).reset();
+        }
+
+        private addNewRecord($form: any) {
+            const formdata = {
+                locales_Id: parseInt($("#addLocales").val() as string),
+                pageFriendlyName: $("#addPageName").val(),
+                labelFriendlyName: $("#addLabelName").val(),
+                text: $("#addText").val()
+            };
+
+            $.ajax({
+                url: "/Home/addNewRecord",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formdata),
+                success: (response) => {
+                    if (response.success) {
+                        alert("Record Saved");
+                        this.closeModal($form);
+                        location.reload();
+                    } else {
+                        alert("Record Save Failed " + response.message);
+                    }
+                },
+                error: (xhr, status, error) => {
+                    alert("AJAX error: " + error);
+                    console.error("AJAX error:", xhr.responseText);
+                }
+            });
         }
     }
 

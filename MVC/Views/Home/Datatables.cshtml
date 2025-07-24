@@ -5,19 +5,61 @@
 <h1>Table (OOP Version)</h1>
 
 <div class="custom-search-bar mb-3">
-    <input id="customsearchinput" placeholder="Search" class="form-control d-inline-block" style="max-width: 200px;" />
+    <input id="customSearchInput" placeholder="Search" class="form-control d-inline-block" style="max-width: 200px;" />
     <select id="customSearchColumn" class="form-select d-inline-block" style="max-width: 200px;">
         <option value="all">All</option>
         <option value="pageFriendlyName">Page Name</option>
         <option value="labelFriendlyName">Label Name</option>
         <option value="text">Text</option>
     </select>
+    <button id="createRecordButton" class="form-control d-inline-block" style="max-width: 200px;">Add New Record</button>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="table-scroll-wrapper">
         <table id="myTable" class="display nowrap" style="width: 100%">
             <thead><tr></tr></thead>
         </table>
+    </div>
+</div>
+
+<div id="addRecordModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create a Record</h5>
+                <button id="closeRecordModal"type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addRecordForm" method="POST">
+                    <div class="form-group">
+                        <label for="addLocales">Locales:</label>
+                        <input type="text" id="addLocales" name="locales" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addPageName">Page Name:</label>
+                        <input type="text" id="addPageName" name="page-name" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addLabelName">Label Name:</label>
+                        <input type="text" id="addLabelName" name="label-name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addText">Text:</label>
+                        <input type="text" id="addText" name="text" class="form-control" required />
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="saveNewRecord" type="submit" class="btn btn-primary" form="addRecordForm">Save changes</button>
+                <button id="cancelNewRecord" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -28,6 +70,8 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    
     <script src="~/js/datatables.js" asp-append-version="true"></script>
 }
 

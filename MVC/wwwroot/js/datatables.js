@@ -12,24 +12,30 @@ var DataScreen;
                 .catch(err => console.error("CSV Fetch Failed", err));
         }
         renderTable(data) {
-            if (data.length == 0)
+            if (data.length === 0)
                 return;
-            const columns = this.mapColumnNames(data);
+            const columns = [
+                { title: "Locales", data: "locales_Id", name: "locales_Id" },
+                { title: "Page Name", data: "pageFriendlyName", name: "pageFriendlyName" },
+                { title: "Label Name", data: "labelFriendlyName", name: "labelFriendlyName" },
+                { title: "Text", data: "text", name: "text" },
+            ];
             this.pushActionsColumn(columns);
             const table = this.setTable(data, columns);
             this.setNavRow();
+            this.recordEventListeners();
             const $input = $("#customSearchInput");
             const $select = $("#customSearchColumn");
             $input.on("keyup", function () {
                 const keyword = $input.val().toLowerCase();
                 const column = $select.val();
                 table.search('').columns().search('');
-                if (column == "all") {
+                if (column === "all") {
                     table.search(keyword).draw();
                 }
                 else {
-                    const columnindex = table.column(`${column}:name`).index();
-                    table.column(columnindex).search(keyword).draw();
+                    const columnIndex = table.column(`${column}:name`).index();
+                    table.column(columnIndex).search(keyword).draw();
                 }
             });
             $(document).on("click", "#gotoPageBtn", function () {
@@ -49,20 +55,21 @@ var DataScreen;
             $select.on("change", function () {
                 $input.trigger("keyup");
             });
+            console.log("Row received by DataTable:", data[0]);
+            console.log("Object.keys(data[0]):", Object.keys(data[0]));
         }
         mapColumnNames(data) {
-            const Mapping = {
+            const mapping = {
                 locales_Id: "Locales",
                 pageFriendlyName: "Page Name",
                 labelFriendlyName: "Label Name",
                 text: "Text"
             };
-            const columns = Object.keys(data[0]).map(key => ({
-                title: Mapping[key] || key,
+            return Object.keys(data[0]).map(key => ({
+                title: mapping[key] || key,
                 data: key,
                 name: key
             }));
-            return columns;
         }
         pushActionsColumn(columns) {
             columns.push({
@@ -71,33 +78,31 @@ var DataScreen;
                 sortable: false,
                 orderable: false,
                 defaultContent: `
-                <div class="action-buttons">
-                    <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-download"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary"><i class="fa-brands fa-twitter"></i></button>
-                    <button class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-eye"></i></button>
-                </div>`
+                    <div class="action-buttons">
+                        <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-download"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary"><i class="fa-brands fa-twitter"></i></button>
+                        <button class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-eye"></i></button>
+                    </div>`
             });
         }
         setTable(data, columns) {
-            const table = this.$context.DataTable({
+            return this.$context.DataTable({
                 data: data,
                 columns: columns,
                 dom: '<"top">t<"bottom custom-footer"lpi>'
             });
-            return table;
         }
         setNavRow() {
             setTimeout(() => {
                 const $goto = $(`
                     <div class="goto-page-controls" style="display: inline-flex; align-items: center; gap: 0.25rem;">
-                      Go to page:
-                      <input type="number" id="gotoPageInput" min="1"
-                             class="form-control form-control-sm d-inline-block"
-                             style="width: 60px;" />
-                      <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
+                        Go to page:
+                        <input type="number" id="gotoPageInput" min="1"
+                            class="form-control form-control-sm d-inline-block"
+                            style="width: 60px;" />
+                        <button id="gotoPageBtn" class="btn btn-outline-secondary btn-sm">Go</button>
                     </div>
-              `);
-                //Detaching
+                `);
                 const $pag = $(".custom-footer .dataTables_paginate").detach();
                 const $len = $(".custom-footer .dataTables_length").detach();
                 const $navRow = $('<div class="footer-nav-row"></div>').css({
@@ -106,7 +111,6 @@ var DataScreen;
                     alignItems: 'center',
                     marginTop: '0.5rem'
                 });
-                //Reattaching to new Row
                 $navRow.append($('<div></div>').css('flex', '1'));
                 $navRow.append($len.css({ margin: 0 }));
                 $navRow.append($pag.css({ margin: '0 auto' }));
@@ -117,6 +121,53 @@ var DataScreen;
                 }).append($goto));
                 $(".custom-footer .dataTables_info").before($navRow);
             }, 0);
+        }
+        recordEventListeners() {
+            const $form = $("#addRecordForm");
+            const $button = $("#createRecordButton");
+            $button.on("click", () => {
+                $(`#addRecordModal`).modal("show");
+            });
+            const $Save = $("#saveNewRecord");
+            $Save.on("click", () => {
+                this.addNewRecord($form);
+            });
+            const $Cancel = $("#cancelNewRecord");
+            $Cancel.on("click", () => this.closeModal($form));
+            const $Close = $("#closeRecordModal");
+            $Close.on("click", () => this.closeModal($form));
+        }
+        closeModal($form) {
+            $("#addRecordModal").modal("hide");
+            $form[0].reset();
+        }
+        addNewRecord($form) {
+            const formdata = {
+                locales_Id: parseInt($("#addLocales").val()),
+                pageFriendlyName: $("#addPageName").val(),
+                labelFriendlyName: $("#addLabelName").val(),
+                text: $("#addText").val()
+            };
+            $.ajax({
+                url: "/Home/addNewRecord",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formdata),
+                success: (response) => {
+                    if (response.success) {
+                        alert("Record Saved");
+                        this.closeModal($form);
+                        location.reload();
+                    }
+                    else {
+                        alert("Record Save Failed " + response.message);
+                    }
+                },
+                error: (xhr, status, error) => {
+                    alert("AJAX error: " + error);
+                    console.error("AJAX error:", xhr.responseText);
+                }
+            });
         }
     }
     DataScreen.Table = Table;

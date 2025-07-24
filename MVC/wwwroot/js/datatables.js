@@ -2,6 +2,7 @@ var DataScreen;
 (function (DataScreen) {
     class Table {
         constructor($ctx) {
+            this.publishOpen = false;
             this.$context = $ctx;
             this.loadData();
         }
@@ -21,9 +22,11 @@ var DataScreen;
                 { title: "Text", data: "text", name: "text" },
             ];
             this.pushActionsColumn(columns);
+            this.pushCheckBoxColumn(columns);
             const table = this.setTable(data, columns);
             this.setNavRow();
             this.recordEventListeners();
+            $("#publishSelectedBtn").prop("hidden", true);
             const $input = $("#customSearchInput");
             const $select = $("#customSearchColumn");
             $input.on("keyup", function () {
@@ -55,8 +58,49 @@ var DataScreen;
             $select.on("change", function () {
                 $input.trigger("keyup");
             });
+            $(document).on("click", "#publishButton", function () {
+                if (!this.publishOpen) {
+                    table.column(table.settings()[0].aoColumns.length - 1).visible(true);
+                    $("#publishSelectedBtn").prop("hidden", false);
+                    this.publishOpen = true;
+                }
+                else {
+                    table.column(table.settings()[0].aoColumns.length - 1).visible(false);
+                    $("#publishSelectedBtn").prop("hidden", true);
+                    this.publishOpen = false;
+                }
+            });
+            $("#publishSelectedBtn").off("click").on("click", () => {
+                this.sendPublishedItems(table);
+            });
             console.log("Row received by DataTable:", data[0]);
             console.log("Object.keys(data[0]):", Object.keys(data[0]));
+        }
+        sendPublishedItems(table) {
+            const indexes = [];
+            table.rows().every(function (rowIdx) {
+                const $row = $(this.node());
+                if ($row.find("input[type=checkbox]").prop("checked")) {
+                    indexes.push(rowIdx);
+                }
+            });
+            if (indexes.length == 0) {
+                this.showToast("Select at least 1 row");
+                return;
+            }
+            $.ajax({
+                url: "/Home/publishedSelected",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(indexes),
+                success: () => {
+                    this.showToast(`Published ${indexes.length} records.`);
+                    $("#publishSelectedBtn").prop("hidden", true);
+                    this.reloadTableData();
+                },
+                error: xhr => this.showToast("Publish failed: " + xhr.responseText)
+            });
+            table.column(table.settings()[0].aoColumns.length - 1).visible(false);
         }
         mapColumnNames(data) {
             const mapping = {
@@ -83,6 +127,17 @@ var DataScreen;
                         <button class="btn btn-sm btn-outline-secondary"><i class="fa-brands fa-twitter"></i></button>
                         <button class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-eye"></i></button>
                     </div>`
+            });
+        }
+        pushCheckBoxColumn(columns) {
+            columns.push({
+                title: "",
+                data: null,
+                orderable: false,
+                sortable: false,
+                className: "select-checkbox text-center",
+                defaultContent: '<input type="checkbox" />',
+                visible: false
             });
         }
         setTable(data, columns) {
@@ -142,11 +197,19 @@ var DataScreen;
             $form[0].reset();
         }
         addNewRecord($form) {
+            const locales = $("#addLocales").val().trim();
+            const pageName = $("#addPageName").val().trim();
+            const labelName = $("#addLabelName").val().trim();
+            const text = $("#addText").val().trim();
+            if (!locales || !pageName || !labelName || !text) {
+                this.showToast("All fields are required!");
+                return;
+            }
             const formdata = {
-                locales_Id: parseInt($("#addLocales").val()),
-                pageFriendlyName: $("#addPageName").val(),
-                labelFriendlyName: $("#addLabelName").val(),
-                text: $("#addText").val()
+                locales_Id: parseInt(locales, 10),
+                pageFriendlyName: pageName,
+                labelFriendlyName: labelName,
+                text: text
             };
             $.ajax({
                 url: "/Home/addNewRecord",
@@ -155,17 +218,38 @@ var DataScreen;
                 data: JSON.stringify(formdata),
                 success: (response) => {
                     if (response.success) {
-                        alert("Record Saved");
+                        this.showToast("Record Saved");
                         this.closeModal($form);
-                        location.reload();
+                        this.reloadTableData();
                     }
                     else {
-                        alert("Record Save Failed " + response.message);
+                        this.showToast("Record Save Failed: " + response.message);
                     }
                 },
+                error: (xhr) => {
+                    this.showToast("AJAX error: " + xhr.responseText);
+                }
+            });
+        }
+        showToast(message) {
+            const $toast = $("#infoToast");
+            $toast.find("#toastText").text(message);
+            const toastEl = $toast[0];
+            const bsToast = new bootstrap.Toast(toastEl);
+            bsToast.show();
+        }
+        reloadTableData() {
+            $.ajax({
+                url: "/Home/RetrieveCSV",
+                method: "Get",
+                success: (data) => {
+                    const table = this.$context.DataTable();
+                    table.clear();
+                    table.rows.add(data);
+                    table.draw();
+                },
                 error: (xhr, status, error) => {
-                    alert("AJAX error: " + error);
-                    console.error("AJAX error:", xhr.responseText);
+                    console.error("Ajax reload failed", error);
                 }
             });
         }

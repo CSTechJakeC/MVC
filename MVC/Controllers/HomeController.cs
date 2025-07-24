@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 using System.Diagnostics;
 using System.Globalization;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace MVC.Controllers
 {
@@ -63,6 +64,8 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult AddNewRecord([FromBody] CsvRecord newRec)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
                 var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CSV");
@@ -101,6 +104,60 @@ namespace MVC.Controllers
                 return BadRequest(new { success = false, message = ex.Message });
             }
         }
+
+        [HttpPost]
+        public IActionResult publishedSelected([FromBody] List<int> indexes)
+        {
+            if (indexes == null || indexes.Count == 0)
+                return BadRequest(new { success = false, message = "No rows selected" });
+
+            var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CSV");
+            var source = Path.Combine(folder, "data.csv");
+            var published = Path.Combine(folder, "published.csv");
+
+            if (!System.IO.File.Exists(source))
+                return NotFound("Source CSV not found.");
+
+        
+            List<CsvRecord> allRecords;
+            var readConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                MissingFieldFound = null,
+                HeaderValidated = null,
+                BadDataFound = null
+            };
+            using (var reader = new StreamReader(source))
+            using (var csv = new CsvReader(reader, readConfig))
+            {
+                csv.Context.RegisterClassMap<CsvRecordMap>();
+                allRecords = csv.GetRecords<CsvRecord>().ToList();
+            }
+
+        
+            var toPublish = indexes
+                .Where(i => i >= 0 && i < allRecords.Count)
+                .Select(i => allRecords[i])
+                .ToList();
+            if (!toPublish.Any())
+                return BadRequest("No matching records found.");
+
+      
+            var exists = System.IO.File.Exists(published);
+            using (var writer = new StreamWriter(published, append: true))
+            using (var csvW = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                if (!exists)
+                {
+                    csvW.WriteHeader<CsvRecord>();
+                    csvW.NextRecord();
+                }
+                csvW.WriteRecords(toPublish);
+            }
+
+            return Ok(new { message = $"Published {toPublish.Count} record(s)." });
+        }
+
+
 
         [HttpPost]
         public IActionResult SaveCsv([FromBody] string csvData)

@@ -4,16 +4,19 @@
 <link rel="stylesheet" href="~/css/datatable.css" asp-append-version="true" />
 <h1>Table (OOP Version)</h1>
 
-<div class="custom-search-bar mb-3">
-    <input id="customSearchInput" placeholder="Search" class="form-control d-inline-block" style="max-width: 200px;" />
-    <select id="customSearchColumn" class="form-select d-inline-block" style="max-width: 200px;">
+<div class="custom-search-bar mb-3 d-flex align-items-center gap-2">
+    <input id="customSearchInput" class="form-control" style="max-width:200px" placeholder="Search" />
+    <select id="customSearchColumn" class="form-select" style="max-width:200px">
         <option value="all">All</option>
         <option value="pageFriendlyName">Page Name</option>
         <option value="labelFriendlyName">Label Name</option>
         <option value="text">Text</option>
     </select>
-    <button id="createRecordButton" class="form-control d-inline-block" style="max-width: 200px;">Add New Record</button>
+    <button id="createRecordButton" class="form-control w-auto">Add New Record</button>
+    <button id="publishButton" class="form-control w-auto">Publish</button>
+    <button id="publishSelectedBtn" class="form-control w-auto" style="max-width: 200px;">Publish Selected</button>
 </div>
+
 <div class="container-fluid" >
     <div class="table-scroll-wrapper">
         <table id="myTable" class="display nowrap" style="width: 100%">
@@ -40,7 +43,7 @@
 
                     <div class="form-group">
                         <label for="addPageName">Page Name:</label>
-                        <input type="text" id="addPageName" name="page-name" class="form-control" />
+                        <input type="text" id="addPageName" name="page-name" class="form-control" required />
                     </div>
 
                     <div class="form-group">
@@ -56,12 +59,25 @@
 
             </div>
             <div class="modal-footer">
-                <button id="saveNewRecord" type="submit" class="btn btn-primary" form="addRecordForm">Save changes</button>
+                <button id="saveNewRecord" type="button" class="btn btn-primary" form="addRecordForm">Save changes</button>
                 <button id="cancelNewRecord" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999">
+    <div id="infoToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Info</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toastText" class="toast-body">
+            Default message.
+        </div>
+    </div>
+</div>
+
+
 
 
 @section Scripts {
@@ -70,8 +86,8 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    
+
+
     <script src="~/js/datatables.js" asp-append-version="true"></script>
 }
 

@@ -70,6 +70,24 @@
 }
 
 
+#addRecordModal .modal-header .close {
+    background-color: inherit; 
+    border: none; 
+    padding: 0.5rem; 
+    border-radius: 0.25rem; 
+}
+
+ 
+    #addRecordModal .modal-header .close span {
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+  
+    #addRecordModal .modal-header .close:hover {
+        background-color: rgba(0,0,0,0.05);
+    }
+
 
 
 
